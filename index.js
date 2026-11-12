@@ -25,6 +25,8 @@ const app = express();
 
 const PORT = 3000;
 
+app.use(express.json())
+
 app.get("/", (req, res) => {
   res.status(200).json({
     status: true,
@@ -80,6 +82,27 @@ app.get("/health", (req, res) => {
     massage: "welcome to health page ",
   });
 });
+
+app.post("/signup", (req, res) => {
+  res.status(200).json({
+    status: true,
+    message: "Signup successfully",
+  });
+});
+
+app.delete("/delete", (req, res) => {
+  res.status(200).json({
+    status: true,
+    message: "delete user successfully",
+  });
+});
+
+app.put("/edit", (req,res) => {
+ res.status(201).json({
+  status:true,
+  message : "edit user sucessfully "
+ })
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
