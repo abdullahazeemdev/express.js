@@ -25,54 +25,56 @@ const app = express();
 
 const PORT = 3000;
 
-app.use(express.json())
+app.use(express.json());
+
+let users = [];
 
 app.get("/", (req, res) => {
   res.status(200).json({
     status: true,
     massage: "welcome bro",
-        data : [
-  {
-    id: 1,
-    name: "Ali Raza",
-    rollNo: "WEB-101",
-    age: 19,
-    course: "Web & App Development",
-    grade: "A",
-    isActive: true,
-    skills: ["HTML", "CSS", "JavaScript", "React"]
-  },
-  {
-    id: 2,
-    name: "Ayesha Khan",
-    rollNo: "WEB-102",
-    age: 20,
-    course: "Frontend Engineering",
-    grade: "A+",
-    isActive: true,
-    skills: ["React", "Tailwind CSS", "TypeScript"]
-  },
-  {
-    id: 3,
-    name: "Usman Tariq",
-    rollNo: "WEB-103",
-    age: 18,
-    course: "Full Stack Development",
-    grade: "B",
-    isActive: false,
-    skills: ["JavaScript", "Node.js", "Firebase"]
-  },
-  {
-    id: 4,
-    name: "Sara Ahmed",
-    rollNo: "WEB-104",
-    age: 21,
-    course: "UI/UX & Frontend",
-    grade: "A",
-    isActive: true,
-    skills: ["HTML", "CSS", "Bootstrap", "React"]
-  }
-]
+    data: [
+      {
+        id: 1,
+        name: "Ali Raza",
+        rollNo: "WEB-101",
+        age: 19,
+        course: "Web & App Development",
+        grade: "A",
+        isActive: true,
+        skills: ["HTML", "CSS", "JavaScript", "React"],
+      },
+      {
+        id: 2,
+        name: "Ayesha Khan",
+        rollNo: "WEB-102",
+        age: 20,
+        course: "Frontend Engineering",
+        grade: "A+",
+        isActive: true,
+        skills: ["React", "Tailwind CSS", "TypeScript"],
+      },
+      {
+        id: 3,
+        name: "Usman Tariq",
+        rollNo: "WEB-103",
+        age: 18,
+        course: "Full Stack Development",
+        grade: "B",
+        isActive: false,
+        skills: ["JavaScript", "Node.js", "Firebase"],
+      },
+      {
+        id: 4,
+        name: "Sara Ahmed",
+        rollNo: "WEB-104",
+        age: 21,
+        course: "UI/UX & Frontend",
+        grade: "A",
+        isActive: true,
+        skills: ["HTML", "CSS", "Bootstrap", "React"],
+      },
+    ],
   });
 });
 
@@ -84,9 +86,12 @@ app.get("/health", (req, res) => {
 });
 
 app.post("/signup", (req, res) => {
-  res.status(200).json({
+  users.push(req.body);
+
+  res.status(201).json({
     status: true,
     message: "Signup successfully",
+    data: users,
   });
 });
 
@@ -97,12 +102,12 @@ app.delete("/delete", (req, res) => {
   });
 });
 
-app.put("/edit", (req,res) => {
- res.status(201).json({
-  status:true,
-  message : "edit user sucessfully "
- })
-})
+app.put("/edit", (req, res) => {
+  res.status(201).json({
+    status: true,
+    message: "edit user sucessfully ",
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
