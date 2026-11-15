@@ -1,6 +1,6 @@
 // console.log("pappu kara")
 
-import express from 'express';
+import express from "express";
 
 const app = express();
 
@@ -10,35 +10,64 @@ const PORT = 5000;
 
 // middile wear
 
-app.use(express.json())
+app.use(express.json());
 
 // database
 
 let users = [];
 
-// user create 
+// user create
 
-app.post("/users", (req,res) => {
+app.post("/users", (req, res) => {
+  const data = req.body;
 
-    const data = req.data;
+  if (data) {
+    users.push(req.body);
+  }
+  if (!data) {
+    return res.status(404).json({
+      status: "false",
+      massage: "some problem",
+    });
+  }
 
-    if(data){
-        users.push(req.body)
-    }
-    if(!data){
-        return res.status(404).json({
-             status : "false",
-             massage : "some problem"
-        })
-    }
+  res.status(200).json({
+    status: "true",
+    massage: "user added sucessfully",
+    data: users,
+  });
+});
 
-    res.status(200).json({
-        status: "true",
-        massage : "user added sucessfully",
-        data : users
-    })
-})
+// read
 
-app.listen(PORT,() =>{
-    console.log(`server is running on ${PORT}`)
-})
+app.get("/users", (req, res) => {
+  res.status(200).json({
+    status: "true",
+    data: users,
+  });
+});
+
+// single user
+
+app.get("/users/:username", (req, res) => {
+  const { username } = req.params;
+
+  const user = users.find((user) => user.name === username);
+
+  if (!user) {
+    return res.status(404).json({
+      status: false,
+      message: "User not found",
+    });
+  }
+
+  res.status(200).json({
+    status: true,
+    message: "Single user found",
+    data: user,
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`server is running on ${PORT}`);
+});
