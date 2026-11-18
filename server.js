@@ -14,7 +14,19 @@ app.use(express.json());
 
 // database
 
-let users = [];
+let users = [
+  {
+    username: "abdullah",
+    email: "abdullahazeemkhi@gmail.com",
+    id: 1,
+  },
+
+  {
+    username: "hassan",
+    email: "hassan@gmail.com",
+    id: 2,
+  },
+];
 
 // user create
 
@@ -49,10 +61,10 @@ app.get("/users", (req, res) => {
 
 // single user
 
-app.get("/users/:username", (req, res) => {
-  const { username } = req.params;
+app.get("/users/:id", (req, res) => {
+  const { id } = req.params;
 
-  const user = users.find((user) => user.name === username);
+  const user = users.find((user) => user.id === Number(id));
 
   if (!user) {
     return res.status(404).json({
@@ -65,6 +77,42 @@ app.get("/users/:username", (req, res) => {
     status: true,
     message: "Single user found",
     data: user,
+  });
+});
+
+// edit user
+
+app.put("/users/:username", (req, res) => {
+  const body = req.body;
+  const { username } = req.params;
+
+  users = users.map((user) => {
+    if (user.username == username) {
+      return {...user, ...body}
+    }
+
+    return user;
+  });
+
+  res.status(200).json({
+    status: "true",
+    massage : "update sucessfully",
+    data: users,
+  });
+});
+
+// delete user
+
+app.delete("/users/:username", (req, res) => {
+  
+  const { username } = req.params;
+
+  users = users.filter((user) => user.username != username)
+
+  res.status(200).json({
+    status: "true",
+    massage : "update sucessfully",
+    data: users,
   });
 });
 
