@@ -1,17 +1,36 @@
 // console.log("pappu kara")
 
 import express from "express";
+import morgan from "morgan";
+import dotenv from "dotenv"
+
+dotenv.config();
 
 const app = express();
 
 // Port Number
 
-const PORT = 5000;
+const PORT = process.env.PORT;
 
 // middile wear
 
 app.use(express.json());
+app.use(morgan('tiny'));
 
+// custum 
+
+app.use((req,res,next) => {
+  // req.requestTime = new Date();
+  console.log("mera phala middile wear")
+
+  next()
+})
+
+app.use((req,res,next) => {
+  console.log("mera dusra middile wear")
+
+  next()
+})
 // database
 
 let users = [
@@ -27,6 +46,10 @@ let users = [
     id: 2,
   },
 ];
+
+app.get("/", (req, res) => {
+  res.send("Server is working!");
+});
 
 // user create
 
@@ -56,6 +79,7 @@ app.get("/users", (req, res) => {
   res.status(200).json({
     status: "true",
     data: users,
+    // time: req.requestTime
   });
 });
 
